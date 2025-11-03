@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 0 0% 100% / 0.05;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 243 75% 59%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 280 90% 65%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 270 80% 60%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 210 40% 98%;
+
+    --border: 217 33% 17% / 0.2;
+    --input: 217 33% 17% / 0.3;
+    --ring: 243 75% 59%;
+
+    --radius: 1rem;
+
+    /* Gradient tokens */
+    --gradient-hero: linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(243 75% 25%) 50%, hsl(280 90% 35%) 100%);
+    --gradient-button: linear-gradient(135deg, hsl(243 75% 59%) 0%, hsl(280 90% 65%) 100%);
+    --gradient-glow: radial-gradient(circle at 50% 0%, hsl(243 75% 59% / 0.3) 0%, transparent 50%);
+    
+    /* Glass effect */
+    --glass-bg: hsl(0 0% 100% / 0.05);
+    --glass-border: hsl(0 0% 100% / 0.1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground min-h-screen;
+    background: var(--gradient-hero);
+    background-attachment: fixed;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-glow);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .gradient-button {
+    background: var(--gradient-button);
+    transition: all 0.3s ease;
+  }
+
+  .gradient-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px -10px hsl(var(--primary) / 0.5);
+  }
+
+  .gradient-button:active {
+    transform: translateY(0);
+  }
+
+  .gradient-button:disabled {
+    opacity: 0.5;
+    transform: none;
+    cursor: not-allowed;
+  }
+}
