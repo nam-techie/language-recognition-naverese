@@ -1,7 +1,22 @@
 # VIETNAMESE SIGN LANGUAGE RECOGNITION
-A system for recognizing Vietnamese Sign Language using deep learning and computer vision techniques, tailored specifically for Vietnamese sign language.
-## Demo
-https://github.com/user-attachments/assets/c143c7f2-9a7c-4033-9c41-a196322e6b5d
+Hệ thống nhận diện Ngôn ngữ Ký hiệu Việt Nam sử dụng học sâu và thị giác máy tính, được mở rộng và tái cấu trúc cho nhu cầu triển khai Backend + Frontend hiện đại.
+
+## Nguồn gốc & Ghi công
+- Dự án này được phát triển dựa trên dự án gốc: [photienanh/Vietnamese-Sign-Language-Recognition](https://github.com/photienanh/Vietnamese-Sign-Language-Recognition).
+- Chúng tôi đã clone dự án gốc về và tiếp tục cập nhật/chỉnh sửa để phù hợp với yêu cầu mới (tách Backend FastAPI, Frontend Vite, API hoá quy trình suy luận, cải thiện cấu trúc thư mục, tài liệu hoá, v.v.).
+- Các tệp mô hình/tiền xử lý Python gốc được tham khảo và/hoặc điều chỉnh trong repo này:
+  - `augment_function.py`
+  - `create_data_augment.py`
+  - `download_data.py`
+  - `main.py` (phiên bản Streamlit demo)
+  - `trainning.ipynb`
+
+## Khác biệt chính so với dự án gốc
+- Tách kiến trúc thành `backend/` (FastAPI) và `frontend/` (Vite) để phục vụ phát triển FE/BE song song.
+- Cung cấp API suy luận qua FastAPI cho ứng dụng web bên ngoài, vẫn giữ tuỳ chọn chạy demo Streamlit nhanh.
+- Bổ sung hướng dẫn môi trường, CORS, biến môi trường và quy trình chạy cục bộ hai terminal (BE/FE).
+The Vietnamese Sign Language Recognition system leverages deep learning models and computer vision to interpret Vietnamese sign language gestures.
+
 ## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
