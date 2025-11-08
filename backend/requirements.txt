@@ -9,3 +9,6 @@ scipy
 requests
 scikit-learn
 pandas
+fastapi
+uvicorn[standard]
+python-multipart
