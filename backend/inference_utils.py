@@ -20,9 +20,10 @@ if gpus:
         pass
 
 # Limit CPU memory growth for free tier (512MB RAM)
+# Note: set_memory_growth only works for GPU devices, not CPU
 try:
     tf.config.experimental.set_memory_growth(tf.config.list_physical_devices('CPU')[0], True)
-except (IndexError, AttributeError):
+except (IndexError, AttributeError, ValueError):
     pass
 
 
