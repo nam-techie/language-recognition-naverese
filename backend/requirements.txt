@@ -3,7 +3,7 @@ mediapipe
 matplotlib
 tqdm
 streamlit
-tensorflow
+tensorflow-cpu
 selenium
 scipy
 requests

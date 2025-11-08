@@ -3,6 +3,10 @@ import os
 import tempfile
 from typing import List, Optional, Tuple
 
+# ===== Set TensorFlow log level BEFORE importing TensorFlow =====
+# This must be set before importing tensorflow to suppress C++ warnings
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = os.environ.get('TF_CPP_MIN_LOG_LEVEL', '2')
+
 import cv2
 import mediapipe as mp
 import numpy as np
@@ -10,6 +14,9 @@ import tensorflow as tf
 from scipy.interpolate import interp1d
 
 # ===== Optimize TensorFlow for low RAM (Free tier) =====
+# Suppress TensorFlow Python warnings (C++ warnings already suppressed above)
+tf.get_logger().setLevel('ERROR')
+
 # Limit GPU memory growth (if GPU available)
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
