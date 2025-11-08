@@ -47,9 +47,25 @@ async def predict_video(file: UploadFile = File(...)) -> Dict[str, Any]:
     try:
         idx, label, probs = predict_from_video_path(tmp_path)
     except ValueError as e:
+        # Cleanup temp file on error
+        try:
+            os.unlink(tmp_path)
+        except:
+            pass
         raise HTTPException(status_code=422, detail=str(e))
     except Exception as e:
+        # Cleanup temp file on error
+        try:
+            os.unlink(tmp_path)
+        except:
+            pass
         raise HTTPException(status_code=500, detail=f"Inference error: {str(e)}")
+    finally:
+        # Always cleanup temp file to free RAM (important for free tier)
+        try:
+            os.unlink(tmp_path)
+        except:
+            pass
 
     return {"index": idx, "label": label, "probs": probs.tolist()}
 

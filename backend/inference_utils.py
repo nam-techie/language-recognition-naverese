@@ -9,6 +9,22 @@ import numpy as np
 import tensorflow as tf
 from scipy.interpolate import interp1d
 
+# ===== Optimize TensorFlow for low RAM (Free tier) =====
+# Limit GPU memory growth (if GPU available)
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+    except RuntimeError:
+        pass
+
+# Limit CPU memory growth for free tier (512MB RAM)
+try:
+    tf.config.experimental.set_memory_growth(tf.config.list_physical_devices('CPU')[0], True)
+except (IndexError, AttributeError):
+    pass
+
 
 # ===== Constants =====
 mp_holistic = mp.solutions.holistic
@@ -26,7 +42,13 @@ _INV_LABEL_MAP: Optional[dict] = None
 def load_model(model_path: str = "Models/checkpoints/final_model.keras") -> tf.keras.Model:
     global _MODEL
     if _MODEL is None:
-        _MODEL = tf.keras.models.load_model(model_path)
+        # Load model with minimal memory footprint
+        _MODEL = tf.keras.models.load_model(model_path, compile=False)
+        # Compile only if needed (some models need compile for inference)
+        try:
+            _MODEL.compile()
+        except:
+            pass
     return _MODEL
 
 
@@ -118,7 +140,8 @@ def sequence_frames(video_path: str) -> List[np.ndarray]:
 def predict_from_sequence(sequence: np.ndarray) -> Tuple[int, str, np.ndarray]:
     model = load_model()
     _, inv_label_map = load_label_maps()
-    preds = model.predict(np.expand_dims(sequence, axis=0))
+    # Use batch_size=1 and verbose=0 to minimize memory usage
+    preds = model.predict(np.expand_dims(sequence, axis=0), batch_size=1, verbose=0)
     idx = int(np.argmax(preds, axis=1)[0])
     label = inv_label_map.get(idx, str(idx))
     return idx, label, preds[0]
