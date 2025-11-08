@@ -28,6 +28,18 @@ app.add_middleware(
 )
 
 
+@app.get("/", include_in_schema=False)
+def root() -> Dict[str, str]:
+    """Root endpoint - returns service info"""
+    return {
+        "status": "ok",
+        "service": "vsl-backend",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/health"
+    }
+
+
 @app.get("/health")
 def health() -> Dict[str, str]:
     return {"status": "ok"}

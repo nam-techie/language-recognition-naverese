@@ -1,4 +1,6 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+// Normalize API base URL - remove trailing slashes and ensure proper format
+const rawUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+const API_BASE_URL = rawUrl.toString().trim().replace(/\/+$/, '');
 
 export interface PredictionResponse {
   index: number;
